@@ -1,31 +1,53 @@
 import { describe, test, expect } from "@jest/globals"
 
+// INTERFACES & TYPES
+
+
+interface Produit {
+    nom: string;
+    prix: number;
+}
+
+// CLASSE PANIER (CODE REFACTORISÉ)
 class Panier {
-    private produits: Array<{nom: string, prix: number}> = [];
+    private static readonly SEUIL_REDUCTION = 100;
+    private static readonly TAUX_REDUCTION = 0.10;
+    
+    private produits: Produit[] = [];
 
     ajouterProduit(nom: string, prix: number): void {
-        this.produits.push({nom, prix});
+        this.produits.push({ nom, prix });
     }
+
 
     getNombreProduits(): number {
         return this.produits.length;
     }
 
+    
     calculerTotal(): number {
-        const total = this.produits.reduce((total, produit) => total + produit.prix, 0);
-        
-        // Appliquer une réduction de 10% si le total dépasse 100€ donc on utilise >
-        if (total > 100) {
-            return total * 0.9;
-        }
-        
-        return total;
+        const totalBrut = this.calculerTotalBrut();
+        return this.appliquerReduction(totalBrut);
     }
 
-    getProduits(): Array<{nom: string, prix: number}> {
+    getProduits(): Produit[] {
         return this.produits;
     }
+
+    private calculerTotalBrut(): number {
+        return this.produits.reduce((total, produit) => total + produit.prix, 0);
+    }
+
+    private appliquerReduction(total: number): number {
+        if (total > Panier.SEUIL_REDUCTION) {
+            return total * (1 - Panier.TAUX_REDUCTION);
+        }
+        return total;
+    }
 }
+
+
+// TESTS UNITAIRES
 
 describe('Panier E-commerce - TDD', () => {
     test('devrait créer un panier vide', () => {
