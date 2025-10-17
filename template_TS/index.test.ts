@@ -11,6 +11,10 @@ class Panier {
         return this.produits.length;
     }
 
+    calculerTotal(): number {
+        return this.produits.reduce((total, produit) => total + produit.prix, 0);
+    }
+
 }
 
 describe('Panier E-commerce - TDD', () => {
