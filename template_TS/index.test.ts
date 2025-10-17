@@ -10,6 +10,7 @@ class Panier {
     getNombreProduits(): number {
         return this.produits.length;
     }
+
 }
 
 describe('Panier E-commerce - TDD', () => {
@@ -17,9 +18,29 @@ describe('Panier E-commerce - TDD', () => {
         const panier = new Panier();
         expect(panier.getNombreProduits()).toBe(0);
     });
+    
     test('devrait ajouter un produit au panier', () => {
         const panier = new Panier();
         panier.ajouterProduit('Livre', 15);
         expect(panier.getNombreProduits()).toBe(1);
+    });
+
+    test('devrait calculer un total de 0 pour un panier vide', () => {
+        const panier = new Panier();
+        expect(panier.calculerTotal()).toBe(0);
+    });
+
+    test('devrait calculer le total avec un seul produit', () => {
+        const panier = new Panier();
+        panier.ajouterProduit('Livre', 20);
+        expect(panier.calculerTotal()).toBe(20);
+    });
+
+    test('devrait calculer le total avec plusieurs produits', () => {
+        const panier = new Panier();
+        panier.ajouterProduit('Livre', 20);
+        panier.ajouterProduit('Stylo', 5);
+        panier.ajouterProduit('Cahier', 10);
+        expect(panier.calculerTotal()).toBe(35);
     });
 });
