@@ -12,9 +12,19 @@ class Panier {
     }
 
     calculerTotal(): number {
-        return this.produits.reduce((total, produit) => total + produit.prix, 0);
+        const total = this.produits.reduce((total, produit) => total + produit.prix, 0);
+        
+        // Appliquer une réduction de 10% si le total dépasse 100€ donc on utilise >
+        if (total > 100) {
+            return total * 0.9;
+        }
+        
+        return total;
     }
 
+    getProduits(): Array<{nom: string, prix: number}> {
+        return this.produits;
+    }
 }
 
 describe('Panier E-commerce - TDD', () => {
