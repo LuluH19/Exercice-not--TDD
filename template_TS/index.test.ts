@@ -1,8 +1,14 @@
 import { describe, test, expect } from "@jest/globals"
 
 class Panier {
+    private produits: Array<{nom: string, prix: number}> = [];
+
+    ajouterProduit(nom: string, prix: number): void {
+        this.produits.push({nom, prix});
+    }
+
     getNombreProduits(): number {
-        return 0;
+        return this.produits.length;
     }
 }
 
