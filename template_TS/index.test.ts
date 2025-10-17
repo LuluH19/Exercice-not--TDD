@@ -47,4 +47,27 @@ describe('Panier E-commerce - TDD', () => {
         panier.ajouterProduit('Cahier', 10);
         expect(panier.calculerTotal()).toBe(35);
     });
+
+    test('ne devrait PAS appliquer de réduction si le total est exactement 100€', () => {
+        const panier = new Panier();
+        panier.ajouterProduit('Produit 1', 50);
+        panier.ajouterProduit('Produit 2', 50);
+        expect(panier.calculerTotal()).toBe(100);
+    });
+
+    test('devrait appliquer une réduction de 10% si le total dépasse 100€', () => {
+        const panier = new Panier();
+        panier.ajouterProduit('Produit 1', 60);
+        panier.ajouterProduit('Produit 2', 60);
+        // Total = 120€, avec réduction 10% = 120 * 0.9 = 108€
+        expect(panier.calculerTotal()).toBe(108);
+    });
+
+    test('devrait appliquer une réduction de 10% pour un montant élevé', () => {
+        const panier = new Panier();
+        panier.ajouterProduit('Ordinateur', 800);
+        panier.ajouterProduit('Souris', 50);
+        // Total = 850€, avec réduction 10% = 850 * 0.9 = 765€
+        expect(panier.calculerTotal()).toBe(765);
+    });
 });
